@@ -1,0 +1,18 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      APP_NAME: "Backend Data API"
+      DATABASE_URL: "sqlite:////app/db/app.db"
+    volumes:
+      - api-data:/app/db
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  api-data:
